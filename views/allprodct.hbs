@@ -1,0 +1,161 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper" style="padding-left: 15px;padding-right: 15px">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Products</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="">
+            <div class="col-lg-5">
+                <div class="alert alert-success productsuccess" style="display:none;"></div>
+                <div class="alert alert-danger productdanger" style="display:none;"></div>
+                <form method="POST" action="/products/add" enctype="multipart/form-data" class="repeater brandform" id="addproductform">
+                    <div id="form-group">
+                        <label>Product Sno: <span>*</span></label>
+                        <input class="form-control" name="sku" type="text" id="sku" autocomplete="off">
+                        <span class="form_error">Please enter Product Serial Number</span>
+                    </div>
+                    <div id="form-group">
+                        <label>Product Title: <span>*</span></label>
+                        <input class="form-control" name="producttitle" type="text" id="producttitle" autocomplete="off">
+                        <span class="form_error">Please enter Product Name</span>
+                    </div>
+                    <div id="form-group">
+                        <label>Product Description:</label>
+                        <textarea class="form-control" name="productbody" id="productbody"></textarea>
+                    </div>
+                    <div id="form-group">
+                        <label>Unit: <span>*</span></label>
+                        <input class="form-control" name="unit" type="text" id="unit" autocomplete="off">
+                        <span class="form_error">Please enter Product Unit</span>
+                    </div>
+
+                    <div class="brand_add_container clearfix">
+                        <div data-repeater-list="product_brand_group" class="main_brand_row">
+                            <div data-repeater-item class="brand_repeat_row">
+                                <div id="form-group" class="brand_options">
+                                    <div class="form-group brandsectionselect">
+                                        <label>Add Brands:</label>
+                                        <input class="form-control serialnumberclass" type="hidden" name="serialnumber" value="{{brands.0.brandserialnumber}}"/>
+                                        <select class="form-control product_brand" name="productbrand">
+                                            {{#each brands}}
+                                            <option value="{{this.brandtitle}}" data-serialnum="{{this.brandserialnumber}}">{{this.brandtitle}}</option>
+                                            {{/each}}
+                                            <option value="none">None</option>
+                                        </select>
+                                        <input data-repeater-delete type="button" value="Delete" class="btn btn-danger main_delete_select"/>
+                                    </div>
+                                    <div id="form-group">
+                                        <label>Product Image:</label>
+                                        <input class="" name="productimage" type="file">
+                                    </div>
+                                </div>
+                                <div class="inner-repeater brand-child-elements">
+                                    <div data-repeater-list="brand_pack_variation" class="inner">
+                                        <div data-repeater-item class="inner brand-child-fields">
+                                            <div class="pack_variation_class">
+                                                <div class="input-group-col col-sm-3">
+                                                    <label>Pack Weight</label>
+                                                    <input class="form-control" name="packvalue" value="30" placeholder="Pack Weight" type="number" autocomplete="off"/>
+                                                </div>
+                                                <div class="input-group-col col-sm-3">
+                                                    <label>Tot Pack</label>
+                                                    <input class="form-control" type="number" name="totpack" value="30"/>
+                                                </div>
+                                                <div class="input-group-col col-sm-3">
+                                                <label>Inner Pack</label>
+                                                <input class="form-control" type="number" name="innerpack" value="1"/>
+                                                </div>
+                                                <div class="input-group-col col-sm-3">
+                                                <label>Pack Charges</label>
+                                                <input class="form-control" type="number" name="packcharges" value="0"/>
+                                                </div>
+                                                <div class="input-group-col col-sm-12">
+                                                    <br />
+                                                    <input data-repeater-delete type="button" value="Delete" class="inner btn btn-danger inner_row-del"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input data-repeater-create type="button" value="Add Pack Row" class="inner btn btn-primary inner_row_add"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="main_brand_add_button">
+                            <input data-repeater-create type="button" value="Add" class="btn btn-primary"/>
+                        </div>
+                    </div>
+                    <br>
+                    <input class="btn btn-success" type="submit" value="Submit" class="add_product_submit">
+                </form>
+                <form method="POST" action="" enctype="multipart/form-data" id="editproductform" style="display:none;" class="brandform"> 
+                    <div id="form-group">
+                        <label> Product Name:</label>
+                        <input type="hidden" name="sku" value="" id="sku" class="edit_sku"/>
+                        <input class="form-control edit_title" name="producttitle" type="text" value="" id="editproducttitle">
+                        <span class="form_error">Please enter Product Name</span>
+                    </div>
+                    <div id="form-group">
+                        <label>Product Description:</label>
+                        <textarea class="form-control editdescription" name="productbody">{{product.productbody}}</textarea>
+                    </div>
+                    <div id="form-group">
+                        <label>Product Unit:</label>
+                        <input class="form-control editunit" name="unit" type="text" value="" id="editproductunit">
+                        <span class="form_error">Please enter Product Unit</span>
+                    </div>
+                    <div class="product_brand_variaton">
+                    </div>
+                    <input type="button" value="Add Brand Variation Row" class="outer-add-btn btn btn-primary">
+                    <br>
+                    <input class="btn btn-success" type="submit" value="Submit">
+                </form>
+            </div>
+            <div class="col-lg-7">
+                <table class="product_detail_table table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Sno.</th>
+                            <th>Name</th>
+                            <th>Unit</th>
+                            <th>Price</th>
+                            <th>Publish Date</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>      
+                    </thead>  
+                    <tbody>
+                        {{#each products}}
+                        <tr>
+                            <td>{{this.sku}}</td>
+                            <td>{{this.producttitle}}</td>
+                            <td>{{this.unit}}</td>
+                            <td>{{this.regularprice}}</td>
+                            <td>{{#if this.creationdate}}{{dateformat this.creationdate 'DD/MM/YYYY h:mm a'}}{{/if}}</td>
+                            <td><a href="javascript:void(0);" class="edit_product_btn" data-id="{{this._id}}">Edit</a></td>
+                            <td><a href="javascript:void(0);" class="delete-product" data-id="{{this._id}}">Delete</a></td>
+                        </tr>
+                        {{/each}}    
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Sno.</th>
+                            <th>Name</th>
+                            <th>Unit</th>
+                            <th>Price</th>
+                            <th>Publish Date</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /#page-wrapper -->
+{{> footer}}

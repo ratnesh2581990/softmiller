@@ -1,0 +1,68 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">All Orders</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="product_detail_table table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>S.no</th>
+                        <th>Order ID</th>
+                        <th>Customer Name</th>
+                        <th>Customer Mobile Number</th>
+                        <th>Broker Name</th>
+                        <th>Order Amount</th>
+                        <th>Order Date</th>
+                    </tr>      
+                </thead>  
+                <tbody>
+                    {{#each orders as |ordervalue orderkey|}}
+                    <tr>
+                        <td>{{sum @index 1}}</td>
+                        <td><a href="/orders/{{this._id}}">{{this.orderid}}</a></td>
+                        <td>
+                            {{#equal ordervalue.userid.role 'customer'}}
+                               {{ordervalue.userid.name}}
+                            {{else}}
+                                {{ordervalue.customername}}
+                            {{/equal}}
+                        </td>
+                         <td>
+                            {{ordervalue.userid.phonenumber}}
+                        </td>
+                        <td>
+                            {{#equal ordervalue.userid.role 'broker'}}
+                                {{ordervalue.userid.name}}
+                            {{else}}
+                                {{this.brokername}}
+                            {{/equal}}
+                        </td>
+                        <td>{{this.amount}}</td>
+                        <td>{{dateformat this.ordermilisecond 'DD/MM/YYYY h:mm a'}}</td>
+                    </tr>
+                    {{/each}}    
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>S.no</th>
+                        <th>Order ID</th>
+                        <th>Customer Name</th>
+                        <th>Customer Mobile Number</th>
+                        <th>Broker Name</th>
+                        <th>Order Amount</th>
+                        <th>Order Date</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- /#page-wrapper -->
+{{> footer}}

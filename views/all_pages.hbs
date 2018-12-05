@@ -1,0 +1,82 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">All Pages</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-5">
+                <div class="alert alert-success pagesuccess" style="display:none;"></div>
+                <div class="alert alert-danger pagedanger" style="display:none;"></div>
+                <form method="POST" action="" id="addpageform" class="brandform">
+                    <div id="form-group">
+                        <label>Page Name:</label>
+                        <input class="form-control pagetitle" name="pagetitle" type="text" autocomplete="off">
+                        <span class="form_error">Please Enter Page Name</span>
+                    </div>
+                    <div id="form-group">
+                        <label>Page Description:</label>
+                        <textarea class="form-control pagebody" name="pagebody" id="addpagebody"></textarea>
+                        <span class="form_error">Please Enter Page Description</span>
+                    </div>
+                    <br>
+                    <input class="btn btn-primary addpage" type="button" value="Submit">
+                </form>
+                <form method="POST" action=""class="brandform" id="edit_page_form" style="display:none;">
+                    <div id="form-group">
+                        <label>Page Name:</label>
+                        <input class="form-control editpagetitle" name="pagetitleedit" id="pagetitleedit" type="text" value="" autocomplete="off">
+                        <span class="form_error">Please Enter Page Name</span>
+                    </div>
+                    <div id="form-group">
+                        <label>Page Description:</label>
+                        <textarea class="form-control editpagebody" name="pagebodyedit" id="pagebodyedit"></textarea>
+                        <span class="form_error">Please Enter Page Description</span>
+                    </div>
+                    <br>
+                    <input class="btn btn-primary editpage" type="button" value="Submit">
+                </form> 
+            </div>
+            <div class="col-lg-7">
+                <table class="product_detail_table table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Sno.</th>
+                            <th>Name</th>
+                            <th>Creation Date</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>      
+                    </thead>  
+                    <tbody>
+                        {{#each pages as |pagevalue pagekey|}}
+                        <tr>
+                            <td>{{sum @index 1}}</td>
+                            <td>{{pagevalue.pagetitle}}</td>
+                            <td>{{dateformat pagevalue.creationdate 'DD/MM/YYYY h:mm a'}}</td>
+                            <td><a href="javascript:void(0);" class="edit_page_btn" data-id="{{pagevalue._id}}">Edit</a></td>
+                            <td><a href="javascript:void(0);" class="delete-page" data-id="{{pagevalue._id}}">Delete</a></td>
+                        </tr>
+                        {{/each}}    
+                    </tbody>
+                    <tfoot>
+                         <tr>
+                            <th>Sno.</th>
+                            <th>Name</th>
+                            <th>Creation Date</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>
+                    </tfoot>
+                </table>        
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /#page-wrapper -->
+{{> footer}}

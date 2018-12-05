@@ -1,0 +1,22 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Categories</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <ul class="list-group">
+                {{#each categories}}
+                <li class="list-group-item"><a href="/products/{{this._id}}">{{this.categorytitle}}</a></li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /#page-wrapper -->
+{{> footer}}

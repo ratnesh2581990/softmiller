@@ -1,0 +1,154 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">All Party Master Details</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-5">
+                <div class="alert alert-success brokersuccess" style="display:none;"></div>
+                <div class="alert alert-danger brokerdanger" style="display:none;"></div>
+                <form method="POST" action="/brokers/add" id="addbrokerform" class="brandform brokeraddform">
+                    <div id="form-group">
+                        <label>Type:</label>
+                        <select class="form-control adduserrole" name="role" required="">
+                            <option value="appUser">None</option>
+                            <option value="broker">Broker</option>
+                            <option value="customer" selected="">Customer</option>
+                            <option value="adminUser">Self</option>
+                        </select>
+                        <span class="form_error">Please Enter Role</span>
+                    </div>
+                    <div id="form-group">
+                        <label>Account No:</label>
+                        <input class="form-control adduseraccountnumber" name="accountnumber" type="number" autocomplete="off"> 
+                    </div>
+                    <div id="form-group">
+                        <label>Account Name:</label>
+                        <input class="form-control addusername" name="name" type="text" required="" autocomplete="off">
+                        <span class="form_error">Please Enter User Name</span>
+                    </div>
+                    <div id="form-group">
+                        <label>Station:</label>
+                        <input class="form-control adduserstation" name="station" type="text" autocomplete="off">
+                    </div>
+                    <div id="form-group">
+                        <label>Mobile Number:</label>
+                        <input class="form-control adduserphone" name="phonenumber" type="number" required="" autocomplete="off"> 
+                        <span class="form_error">Please Enter Phone number</span>
+                    </div>
+                    <div id="form-group">
+                        <label>Email ID:</label>
+                        <input class="form-control adduseremail" name="email" type="email" required="" autocomplete="off">
+                        <span class="form_error">Please Enter Email Id</span>
+                        <span class="emailerror" style="display:none; color:red;">Please Enter Valid Email Id</span>
+                    </div>
+                    <br>
+                    <input class="btn btn-success btnaddbroker" type="button" value="Submit">
+                </form>
+                <form method="POST" action="" id="brokereditform" class="brandform brokereditform" style="display:none;">
+                    <div id="form-group">
+                        <label>Type:</label>
+                        <select class="form-control edituserrole" name="role" required="">
+                            <option value="appUser">None</option>
+                            <option value="broker">Broker</option>
+                            <option value="customer">Customer</option>
+                            <option value="adminUser">Self</option>
+                        </select>
+                        <span class="form_error">Please Enter Role</span>
+                    </div>
+                    <div id="form-group">
+                        <label>Account No:</label>
+                        <input class="form-control edituseraccount" name="accountnumber" type="number" value="{{user.accountnumber}}" autocomplete="off">
+                    </div>
+                    <div id="form-group">
+                        <label>Account Name:</label>
+                        <input class="form-control editusername" name="name" type="text" value="{{user.name}}" required="" autocomplete="off">
+                        <span class="form_error">Please Enter Account Name</span>
+                    </div>
+                    <div id="form-group">
+                        <label>Station:</label>
+                        <input class="form-control edituserstation" name="station" type="text" value="{{user.station}}" autocomplete="off">
+                    </div>
+                    <div id="form-group">
+                        <label>Mobile Number:</label>
+                        <input class="form-control edituserphone" name="phonenumber" type="number" value="{{user.phonenumber}}" required="" autocomplete="off">
+                         <span class="form_error">Please Enter Phone Number</span>
+                    </div>
+                    <div id="form-group">
+                        <label>Email ID:</label>
+                        <input class="form-control edituseremail" name="email" type="email" value="{{user.email}}" required="" autocomplete="off">
+                        <span class="form_error">Please Enter Email Id</span>
+                        <span class="emailerror" style="display:none; color:red;">Please Enter Valid Email Id</span>
+                    </div>
+                    <div id="form-group">
+                        <label>Status:</label>
+                        <select class="form-control edituserstauts" name="status">
+                            <option value="inactive">In Active</option>
+                            <option value="active">Active</option>
+                        </select>
+                    </div>
+                    <br>
+                    <input class="btn btn-success editbrokerbtn" type="button" value="Submit">
+                </form>
+            </div>
+            <div class="col-lg-7 broker_table">
+                <table class="product_detail_table table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Sno.</th>
+                            <th>Type</th>
+                            <th>Account No.</th>
+                            <th>Account Name</th>
+                            <th>Station</th>
+                            <th>Mobile No.</th>
+                            <th>Email ID</th>
+                            <th>Status</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>      
+                    </thead>  
+                    <tbody>
+                        {{#each users as |value key|}}
+                            {{#notequal value.role "superAdmin"}}
+                                <tr>
+                                    <td>{{@index}}</td>
+                                    <td>{{this.role}}</td>
+                                    <td>{{this.accountnumber}}</td>
+                                    <td>{{this.name}}</td>
+                                    <td>{{this.station}}</td>
+                                    <td>{{this.phonenumber}}</td>
+                                    <td>{{this.email}}</td>
+                                    <td>{{this.status}}</td>
+                                    <td><a href="javascript:void(0);" class="edit_broker_btn" data-id="{{this._id}}">Edit</a></td>
+                                    <td><a href="javascript:void(0);" class="delete-broker" data-id="{{this._id}}">Delete</a></td>
+                                </tr>
+                            {{/notequal}}
+                        {{/each}}    
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Sno.</th>
+                            <th>Type</th>
+                            <th>Account No.</th>
+                            <th>Account Name</th>
+                            <th>Station</th>
+                            <th>Mobile No.</th>
+                            <th>Email ID</th>
+                            <th>Status</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /#page-wrapper -->
+{{> footer}}
